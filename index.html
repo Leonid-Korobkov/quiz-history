@@ -16,7 +16,7 @@
   <title>Квиз по истории</title>
 
   <link rel="stylesheet" href="style.css">
-  <meta name="theme-color" content="#5c9fd1">
+  <meta name="theme-color" content="#f8d1a7">
 
   <!-- Подгрузка изображений заранее, чтобы они сразу были видны при переключении вопросов -->
   <link rel="preload" as="image" href="img/questions/1.jpg">
@@ -150,10 +150,74 @@
                 </div>
                 <div class="quiz__button-wrapper_question">
                   <button type="button" class="quiz__button quiz__button_question">ответить</button>
+                  <div class="quiz__error-message">Выберите один из вариантов ответов</div>
                 </div>
               </div>
             </div>
-            <div class="quiz__result-screen">
+            <div class="quiz__result-screen result-screen ">
+              <div class="result-screen__title">🎉4 <span>из</span> 10🎉</div>
+              <div class="result-screen__descr"><span>Средний результат</span>Вы знаете историю древнего мира на среднем
+                уровне, но на половину вопросов вы ответили неправильно.</div>
+              <table class="quiz__table-result">
+                <tr>
+                  <th>Количестов правильных ответов</th>
+                  <th>4 из 10</th>
+                </tr>
+                <tr>
+                  <td>Процент правильных ответов</td>
+                  <td>40%</td>
+                </tr>
+                <tr>
+                  <td>Время прохождения</td>
+                  <td>2:33 из 10:00</td>
+                </tr>
+                <tr>
+                  <td>Оценка</td>
+                  <td>3</td>
+                </tr>
+              </table>
+              <div class="quiz__result-question-list result-question-list">
+                <div class="result-question-list__title">Вопросы и ответы</div>
+                <!-- <div class="result-question-list__item">
+                  <div class="quiz__question-wrapper">
+                    <h4 class="quiz__title quiz__title_question main-title">
+                      1) Кто стал первым президентом России после
+                      распада СССР?
+                    </h4>
+                    <div class="quiz__question">
+                      <div class="quiz__image">
+                        <img src="img/questions/1.jpg" alt="">
+                      </div>
+                      <ul class="quiz__list">
+                        <li class="quiz__item quiz__item_right">
+                          <div class="quiz__item-answer"></div>
+                          <label>
+                            <span>Владимир Путин</span>
+                          </label>
+                        </li>
+                        <li class="quiz__item quiz__item_wrong">
+                          <div class="quiz__item-answer"></div>
+                          <label>
+                            <span>Владимир Путин</span>
+                          </label>
+                        </li>
+                        <li class="quiz__item quiz__item_suppose">
+                          <div class="quiz__item-answer"></div>
+                          <label>
+                            <span>Владимир Путин</span>
+                          </label>
+                        </li>
+                        <li class="quiz__item quiz__item_answered">
+                          <div class="quiz__item-answer"></div>
+                          <label>
+                            <span>Владимир Путин</span>
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
               <div class="quiz__button-wrapper">
                 <button type="button" class="quiz__button quiz__button_restart">пройти еще раз</button>
               </div>
