@@ -1,5 +1,4 @@
 'use strict'
-
 // Стартовый экран
 const quizStartScreen = document.querySelector('.quiz__screen-start')
 const quizButtonStart = document.querySelector('.quiz__button_start')
@@ -34,7 +33,7 @@ const questions = [
     question: 'Кто стал первым президентом России после распада СССР?',
     answers: ['Владимир Путин', 'Михаил Горбачев', 'Борис Ельцин', 'Дмитрий Медведев'],
     correct: 'Борис Ельцин',
-    descrAnswer: 'Какое-то описание ответа 1',
+    descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
     numberImg: 1,
     isRightUserAnswer: false,
     userAnswer: null,
@@ -45,7 +44,7 @@ const questions = [
     question: 'Какое событие произошло в 1991 году, приведшее к окончательному распаду СССР?',
     answers: ['Перестройка', 'Крах экономики', 'Война в Афганистане', 'Попытка государственного переворота'],
     correct: 'Попытка государственного переворота',
-    descrAnswer: 'Какое-то описание ответа 2',
+    descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
     numberImg: 2,
     isRightUserAnswer: false,
     userAnswer: null,
@@ -56,13 +55,13 @@ const questions = [
     question: 'Какие реформы были проведены в России в 1990-е годы?',
     answers: ['Реформы в образовании', 'Реформы в здравоохранении', 'Реформы в экономике', 'Реформы в науке'],
     correct: 'Реформы в экономике',
-    descrAnswer: 'Какое-то описание ответа 3',
+    descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
     numberImg: 3,
     isRightUserAnswer: false,
     userAnswer: null,
     indexCorrectAnswer: null,
     indexUserAnswer: null
-  },
+  }
 ]
 
 // Переменные игры
@@ -258,29 +257,44 @@ function renderResult() {
 
     let templateAnswerItem = `
         <li class="quiz__item %cssClass%">
-          <div class="quiz__item-answer"></div>
           <label>
             <span>%title%</span>
           </label>
+          %description%
         </li>
       `
     // Применение ответам нужные стили
     if (question['isRightUserAnswer']) {
       for (let answer of question['answers']) {
         if (answer !== question['correct']) {
-          questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_answered').replace('%title%', answer)
+          questionListAnswersHTML += templateAnswerItem
+            .replace('%cssClass%', 'quiz__item_answered')
+            .replace('%title%', answer)
+            .replace('%description%', '')
         } else {
-          questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_right').replace('%title%', answer)
+          questionListAnswersHTML += templateAnswerItem
+            .replace('%cssClass%', 'quiz__item_right')
+            .replace('%title%', answer)
+            .replace('%description%', `<div class="result-question-list__answer-descr">${question['descrAnswer']}</div>`)
         }
       }
     } else {
       for (let answer of question['answers']) {
         if (answer === question['correct']) {
-          questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_suppose').replace('%title%', answer)
+          questionListAnswersHTML += templateAnswerItem
+            .replace('%cssClass%', 'quiz__item_suppose')
+            .replace('%title%', answer)
+            .replace('%description%', `<div class="result-question-list__answer-descr">${question['descrAnswer']}</div>`)
         } else if (answer === question['userAnswer']) {
-          questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_wrong').replace('%title%', answer)
+          questionListAnswersHTML += templateAnswerItem
+            .replace('%cssClass%', 'quiz__item_wrong')
+            .replace('%title%', answer)
+            .replace('%description%', '')
         } else {
-          questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_answered').replace('%title%', answer)
+          questionListAnswersHTML += templateAnswerItem
+            .replace('%cssClass%', 'quiz__item_answered')
+            .replace('%title%', answer)
+            .replace('%description%', '')
         }
       }
     }
