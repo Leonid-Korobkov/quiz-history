@@ -3,8 +3,6 @@
 const quizStartScreen = document.querySelector('.quiz__screen-start')
 const quizButtonStart = document.querySelector('.quiz__button_start')
 
-// let currentHeightQuiz = quizStartScreen.scrollHeight
-
 // Квиз и вопросы
 const quizQuestionContainer = document.querySelector('.quiz__question-container')
 const quizQuestionTitle = document.querySelector('.quiz__title_question')
@@ -20,7 +18,7 @@ const quizProgressFill = document.querySelector('.quiz__progress-fill')
 const quizProgressCurrentNumber = document.querySelector('.quiz__progress-question_current')
 const quizProgressAmountNumber = document.querySelector('.quiz__progress-question_amount')
 
-const timeLeft = document.querySelector('.quiz__time-left')
+const quizTimeLeft = document.querySelector('.quiz__time-left')
 
 // Экран с результатами
 const quizResultScreen = document.querySelector('.quiz__result-screen')
@@ -70,22 +68,24 @@ let userScore = 0
 let countQuestions = questions.length
 
 // Таймер
-const amountTimeSeconds = 30
+const amountTimeSeconds = 5
+const totalTime = amountTimeSeconds * countQuestions
+let userPassingTime = 0
 let countTimeSeconds = amountTimeSeconds
 let countdown
 
 const timerDisplay = () => {
-  timeLeft.innerHTML = `${countTimeSeconds}с`
+  quizTimeLeft.innerHTML = `${countTimeSeconds}с`
   countdown = setInterval(() => {
     countTimeSeconds--
-    timeLeft.innerHTML = `${countTimeSeconds}с`
+    quizTimeLeft.innerHTML = `${countTimeSeconds}с`
     if (countTimeSeconds == 3) {
       audio.play()
     }
     if (countTimeSeconds == 0) {
+      userPassingTime += amountTimeSeconds - parseInt(quizTimeLeft.textContent)
       questionIndex++
       renderQuestion()
-      // audio1.play()
     }
   }, 1000)
 }
@@ -101,7 +101,9 @@ quizButtonStart.addEventListener('click', function(e) {
 quizButtonQuestion.addEventListener('click', function(e) {
   e.preventDefault()
   if (checkAnswer()) {
+    userPassingTime += amountTimeSeconds - parseInt(quizTimeLeft.textContent)
     renderQuestion()
+
     // Выключению звука
     audio.pause()
     audio.currentTime = 0
@@ -115,25 +117,13 @@ quizButtonRestart.addEventListener('click', function(e) {
   quizResultScreen.classList.remove('visible')
   quizQuestionContainer.classList.add('visible')
   quizStartScreen.classList.remove('visible')
-  // currentHeightQuiz = quizQuestionWrapper.scrollHeight + quizProgressWrap.offsetHeight + parseInt(getComputedStyle(quizProgressWrap).marginBottom) + 2
-  // quizQuestionContainer.style.height = currentHeightQuiz + 'px';
 })
-// function trackResizeScreen() {
-//   const visibleScreen = document.querySelector('.visible')
-//   if (visibleScreen == quizQuestionContainer) {
-//     currentHeightQuiz = quizQuestionWrapper.scrollHeight + quizProgressWrap.offsetHeight + parseInt(getComputedStyle(quizProgressWrap).marginBottom) + 2
-//     visibleScreen.style.height = currentHeightQuiz + 'px';
-//   } else if (visibleScreen == quizResultScreen) {
-//     currentHeightQuiz = quizResultScreenWrapper.scrollHeight
-//     visibleScreen.style.height = currentHeightQuiz + 'px';
-//   }
-// }
-// window.addEventListener('resize', trackResizeScreen)
-// window.addEventListener("orientationchange", trackResizeScreen);
 
 function resetQuizResults() {
   questionIndex = 0
   userScore = 0
+  userPassingTime = 0
+
   resultScreenTitle.innerHTML = ''
   resultScreenDescr.innerHTML = ''
   resultScreenTable.innerHTML = ''
@@ -178,9 +168,6 @@ function renderQuestion() {
     return
   }
 
-  // Плавная анимация вопроса при нажатии на кнопку
-  // quizQuestionContainer.style.height = currentHeightQuiz + 'px'
-
   let questionTitleText = questions[questionIndex]['question']
   let questionImgHTML = `<img src="img/questions/${questions[questionIndex]['numberImg']}.jpg" alt="${questionTitleText}">`
 
@@ -210,8 +197,6 @@ function renderQuestion() {
   countTimeSeconds = amountTimeSeconds
   clearInterval(countdown)
   timerDisplay()
-  // currentHeightQuiz = quizQuestionWrapper.scrollHeight + quizProgressWrap.offsetHeight + parseInt(getComputedStyle(quizProgressWrap).marginBottom) + 2
-  // quizQuestionContainer.style.height = currentHeightQuiz + 'px';
 }
 
 function renderProgressBar(isLastQuestion = false) {
@@ -261,6 +246,15 @@ function renderResult() {
     raiting = 1
   }
 
+  function secondsToMinutes(seconds) {
+    seconds = Number(seconds)
+
+    let m = Math.floor(seconds % 3600 / 60)
+    let s = Math.floor(seconds % 3600 % 60)
+
+    return ('0' + m).slice(-2) + ':' + ('0' + s).slice(-2)
+  }
+
   resultScreenTable.innerHTML = `
     <tr>
       <th>Количестов правильных ответов</th>
@@ -272,7 +266,7 @@ function renderResult() {
     </tr>
     <tr>
       <td>Время прохождения</td>
-      <td>2:33 из 10:00</td>
+      <td>${secondsToMinutes(userPassingTime)} из ${secondsToMinutes(totalTime)}</td>
     </tr>
     <tr>
       <td>Оценка</td>
@@ -343,7 +337,4 @@ function renderResult() {
     `
     resultScreenListAnswers.insertAdjacentHTML('beforeend', questionHTML)
   })
-
-  // currentHeightQuiz = quizResultScreenWrapper.scrollHeight
-  // quizResultScreen.style.height = currentHeightQuiz + 'px';
 }
