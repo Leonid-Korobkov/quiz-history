@@ -114,6 +114,7 @@ h6 {
   /* background: url('img/bg-min.jpeg') center center / cover; */
   position: relative;
   background-attachment: fixed;
+  background-size: cover;
 }
 .wrapper > main {
   flex: 1 1 auto;
@@ -237,15 +238,12 @@ h6 {
 .quiz__question-container {
   display: none;
   opacity: 0;
-  overflow: hidden;
+  /* overflow: hidden;
+  position: relative; */
 }
-.quiz__question-wrapper {
-  transition: all 0.3s ease 0s;
-  animation: fadeIn 0.3s ease-in-out;
-  /* display: none;
-  opacity: 0; */
-  /* opacity: 0;
-  overflow: hidden; */
+.quiz__question-container .quiz__question-wrapper {
+  /* position: absolute;
+  width: 100%; */
 }
 .quiz__progress-wrap {
   display: flex;
@@ -284,6 +282,19 @@ h6 {
 }
 .quiz__progress-question_slash {
   opacity: 0.5;
+}
+
+.quiz__timer {
+  width: 55px;
+  border-radius: 1.8em;
+  display: grid;
+  justify-content: space-between;
+  grid-auto-flow: column;
+  align-items: center;
+  margin-left: 15px;
+}
+.quiz__timer img {
+  max-width: 20px;
 }
 
 .quiz__title_question {
@@ -399,11 +410,7 @@ h6 {
   position: relative;
 }
 .quiz__button-wrapper_question.error .quiz__error-message {
-  display: block;
-  opacity: 1;
-}
-.error {
-  display: block;
+  visibility: visible;
   opacity: 1;
 }
 .quiz__error-message {
@@ -415,10 +422,9 @@ h6 {
   color: var(--color-quiz-wrong);
   font-weight: bold;
   transform: translateX(-50%);
-  display: none;
+  visibility: hidden;
   opacity: 0;
   transition: all 0.3s ease 0s;
-  animation: fadeIn 0.3s ease forwards;
 }
 .quiz__button_question {
   width: 100%;
@@ -429,6 +435,14 @@ h6 {
 .quiz__result-screen {
   display: none;
   opacity: 0;
+  /* overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease 0s;
+  animation: fadeIn 0.3s ease-in-out; */
+}
+.result-screen_wrapper {
+  /* position: absolute;
+  width: 100%; */
 }
 
 .question-visible {
@@ -440,7 +454,7 @@ h6 {
   display: block;
   opacity: 1;
   transition: all 0.3s ease 0s;
-  animation: fadeIn 0.3s ease-in-out forwards;
+  animation: fadeIn .3s ease-in-out;
 }
 @keyframes fadeIn {
   0% {
@@ -458,6 +472,7 @@ h6 {
     opacity: 1;
   }
 }
+
 .result-question-list {
   display: grid;
   gap: 20px;
@@ -503,7 +518,7 @@ h6 {
   color: var(--color-quiz-right);
 }
 .quiz__item.quiz__item_suppose .result-question-list__answer-descr {
-  color: var(--color-quiz-suppose-border);
+  color: var(--color-quiz-right);
 }
 
 table {

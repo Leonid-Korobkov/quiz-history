@@ -99,6 +99,10 @@
                 <div class="quiz__progress">
                   <div class="quiz__progress-fill"></div>
                 </div>
+                <div class="quiz__timer">
+                  <img src="img/timer-icon.svg" />
+                  <span class="quiz__time-left"></span>
+                </div>
               </div>
               <div class="quiz__question-wrapper">
                 <h4 class="quiz__title quiz__title_question main-title">
@@ -154,74 +158,83 @@
                 </div>
               </div>
             </div>
-            <div class="quiz__result-screen result-screen ">
-              <div class="result-screen__title">🎉4 <span>из</span> 10🎉</div>
-              <div class="result-screen__descr"><span>Средний результат</span>Вы знаете историю древнего мира на среднем
-                уровне, но на половину вопросов вы ответили неправильно.</div>
-              <table class="quiz__table-result">
-                <tr>
-                  <th>Количестов правильных ответов</th>
-                  <th>4 из 10</th>
-                </tr>
-                <tr>
-                  <td>Процент правильных ответов</td>
-                  <td>40%</td>
-                </tr>
-                <tr>
-                  <td>Время прохождения</td>
-                  <td>2:33 из 10:00</td>
-                </tr>
-                <tr>
-                  <td>Оценка</td>
-                  <td>3</td>
-                </tr>
-              </table>
-              <div class="quiz__result-question-list result-question-list">
-                <div class="result-question-list__title">Вопросы и ответы</div>
-                <div class="result-question-list__item">
-                  <div class="quiz__question-wrapper">
-                    <h4 class="quiz__title quiz__title_question main-title">
-                      1) Кто стал первым президентом России после
-                      распада СССР?
-                    </h4>
-                    <div class="quiz__question">
-                      <div class="quiz__image">
-                        <img src="img/questions/1.jpg" alt="">
+            <div class="quiz__result-screen result-screen">
+              <div class="result-screen_wrapper">
+                <div class="result-screen__title">🎉4 <span>из</span> 10🎉</div>
+                <div class="result-screen__descr"><span>Средний результат</span>Вы знаете историю древнего мира на
+                  среднем
+                  уровне, но на половину вопросов вы ответили неправильно.</div>
+                <table class="quiz__table-result">
+                  <tr>
+                    <th>Количестов правильных ответов</th>
+                    <th>4 из 10</th>
+                  </tr>
+                  <tr>
+                    <td>Процент правильных ответов</td>
+                    <td>40%</td>
+                  </tr>
+                  <tr>
+                    <td>Время прохождения</td>
+                    <td>2:33 из 10:00</td>
+                  </tr>
+                  <tr>
+                    <td>Оценка</td>
+                    <td>3</td>
+                  </tr>
+                </table>
+                <div class="quiz__result-question-list result-question-list">
+                  <div class="result-question-list__title">Вопросы и ответы</div>
+                  <div class="result-question-list__item">
+                    <div class="quiz__question-wrapper">
+                      <h4 class="quiz__title quiz__title_question main-title">
+                        1) Кто стал первым президентом России после
+                        распада СССР?
+                      </h4>
+                      <div class="quiz__question">
+                        <div class="quiz__image">
+                          <img src="img/questions/1.jpg" alt="">
+                        </div>
+                        <ul class="quiz__list">
+                          <li class="quiz__item quiz__item_right">
+                            <label class="result-question-list__label">
+                              <span>Владимир Путин</span>
+                            </label>
+                          </li>
+                          <li class="quiz__item quiz__item_wrong">
+                            <label>
+                              <span>Владимир Путин</span>
+                            </label>
+                          </li>
+                          <li class="quiz__item quiz__item_suppose">
+                            <label>
+                              <span>Владимир Путин</span>
+                            </label>
+                          </li>
+                          <li class="quiz__item quiz__item_answered">
+                            <label>
+                              <span>Владимир Путин</span>
+                            </label>
+                          </li>
+                        </ul>
                       </div>
-                      <ul class="quiz__list">
-                        <li class="quiz__item quiz__item_right">
-                          <label class="result-question-list__label">
-                            <span>Владимир Путин</span>
-                          </label>
-                        </li>
-                        <li class="quiz__item quiz__item_wrong">
-                          <label>
-                            <span>Владимир Путин</span>
-                          </label>
-                        </li>
-                        <li class="quiz__item quiz__item_suppose">
-                          <label>
-                            <span>Владимир Путин</span>
-                          </label>
-                        </li>
-                        <li class="quiz__item quiz__item_answered">
-                          <label>
-                            <span>Владимир Путин</span>
-                          </label>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="quiz__button-wrapper">
-                <button type="button" class="quiz__button quiz__button_restart">пройти еще раз</button>
+                <div class="quiz__button-wrapper">
+                  <button type="button" class="quiz__button quiz__button_restart">пройти еще раз</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <audio>
+          <source src="sound/sound-timer.mp3">
+        </audio>
       </section>
     </main>
+
+
 
     <footer class="footer">
       <div class="footer__container">

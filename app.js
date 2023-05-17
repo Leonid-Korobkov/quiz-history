@@ -15,17 +15,23 @@ const quizQuestionWrapper = document.querySelector('.quiz__question-wrapper')
 const quizQuestionButtonWrapper = document.querySelector('.quiz__button-wrapper_question')
 
 // Прогресс бар
+const quizProgressWrap = document.querySelector('.quiz__progress-wrap')
 const quizProgressFill = document.querySelector('.quiz__progress-fill')
 const quizProgressCurrentNumber = document.querySelector('.quiz__progress-question_current')
 const quizProgressAmountNumber = document.querySelector('.quiz__progress-question_amount')
 
+const timeLeft = document.querySelector('.quiz__time-left')
+
 // Экран с результатами
 const quizResultScreen = document.querySelector('.quiz__result-screen')
+const quizResultScreenWrapper = document.querySelector('.result-screen_wrapper')
 const quizButtonRestart = document.querySelector('.quiz__button_restart')
 const resultScreenTitle = document.querySelector('.result-screen__title')
 const resultScreenDescr = document.querySelector('.result-screen__descr')
 const resultScreenTable = document.querySelector('.quiz__table-result')
 const resultScreenListAnswers = document.querySelector('.quiz__result-question-list')
+
+const audio = document.getElementsByTagName('audio')[0]
 
 // Массив вопросов
 const questions = [
@@ -36,9 +42,7 @@ const questions = [
     descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
     numberImg: 1,
     isRightUserAnswer: false,
-    userAnswer: null,
-    indexCorrectAnswer: null,
-    indexUserAnswer: null
+    userAnswer: null
   },
   {
     question: 'Какое событие произошло в 1991 году, приведшее к окончательному распаду СССР?',
@@ -47,9 +51,7 @@ const questions = [
     descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
     numberImg: 2,
     isRightUserAnswer: false,
-    userAnswer: null,
-    indexCorrectAnswer: null,
-    indexUserAnswer: null
+    userAnswer: null
   },
   {
     question: 'Какие реформы были проведены в России в 1990-е годы?',
@@ -58,9 +60,7 @@ const questions = [
     descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
     numberImg: 3,
     isRightUserAnswer: false,
-    userAnswer: null,
-    indexCorrectAnswer: null,
-    indexUserAnswer: null
+    userAnswer: null
   }
 ]
 
@@ -68,6 +68,27 @@ const questions = [
 let questionIndex = 0
 let userScore = 0
 let countQuestions = questions.length
+
+// Таймер
+const amountTimeSeconds = 30
+let countTimeSeconds = amountTimeSeconds
+let countdown
+
+const timerDisplay = () => {
+  timeLeft.innerHTML = `${countTimeSeconds}с`
+  countdown = setInterval(() => {
+    countTimeSeconds--
+    timeLeft.innerHTML = `${countTimeSeconds}с`
+    if (countTimeSeconds == 3) {
+      audio.play()
+    }
+    if (countTimeSeconds == 0) {
+      questionIndex++
+      renderQuestion()
+      // audio1.play()
+    }
+  }, 1000)
+}
 
 // Cлушатели событий на кнопки (начало игры, следующий вопрос, повтор игры)
 quizButtonStart.addEventListener('click', function(e) {
@@ -81,6 +102,9 @@ quizButtonQuestion.addEventListener('click', function(e) {
   e.preventDefault()
   if (checkAnswer()) {
     renderQuestion()
+    // Выключению звука
+    audio.pause()
+    audio.currentTime = 0
   }
 })
 quizButtonRestart.addEventListener('click', function(e) {
@@ -91,7 +115,21 @@ quizButtonRestart.addEventListener('click', function(e) {
   quizResultScreen.classList.remove('visible')
   quizQuestionContainer.classList.add('visible')
   quizStartScreen.classList.remove('visible')
+  // currentHeightQuiz = quizQuestionWrapper.scrollHeight + quizProgressWrap.offsetHeight + parseInt(getComputedStyle(quizProgressWrap).marginBottom) + 2
+  // quizQuestionContainer.style.height = currentHeightQuiz + 'px';
 })
+// function trackResizeScreen() {
+//   const visibleScreen = document.querySelector('.visible')
+//   if (visibleScreen == quizQuestionContainer) {
+//     currentHeightQuiz = quizQuestionWrapper.scrollHeight + quizProgressWrap.offsetHeight + parseInt(getComputedStyle(quizProgressWrap).marginBottom) + 2
+//     visibleScreen.style.height = currentHeightQuiz + 'px';
+//   } else if (visibleScreen == quizResultScreen) {
+//     currentHeightQuiz = quizResultScreenWrapper.scrollHeight
+//     visibleScreen.style.height = currentHeightQuiz + 'px';
+//   }
+// }
+// window.addEventListener('resize', trackResizeScreen)
+// window.addEventListener("orientationchange", trackResizeScreen);
 
 function resetQuizResults() {
   questionIndex = 0
@@ -104,8 +142,6 @@ function resetQuizResults() {
   for (let question of questions) {
     question['isRightUserAnswer'] = false
     question['userAnswer'] = null
-    question['indexCorrectAnswer'] = null
-    question['indexUserAnswer'] = null
   }
 }
 
@@ -125,15 +161,6 @@ function checkAnswer() {
     userScore++
   }
 
-  const itemsAnswers = document.querySelectorAll('.quiz__item-answer')
-  itemsAnswers.forEach((item, index) => {
-    if (item.value === questions[questionIndex]['correct']) {
-      questions[questionIndex]['indexCorrectAnswer'] = index
-    } else if (item.value === questions[questionIndex]['userAnswer']) {
-      questions[questionIndex]['indexUserAnswer'] = index
-    }
-  })
-
   questionIndex++
 
   return true
@@ -152,7 +179,7 @@ function renderQuestion() {
   }
 
   // Плавная анимация вопроса при нажатии на кнопку
-  // quizQuestionContainer.style.maxHeight = currentHeightQuiz + 'px'
+  // quizQuestionContainer.style.height = currentHeightQuiz + 'px'
 
   let questionTitleText = questions[questionIndex]['question']
   let questionImgHTML = `<img src="img/questions/${questions[questionIndex]['numberImg']}.jpg" alt="${questionTitleText}">`
@@ -179,15 +206,12 @@ function renderQuestion() {
   }
 
   renderProgressBar()
-  // let height = quizQuestionWrapper.scrollHeight
-  // quizQuestionWrapper.style.visibility = 'hidden'
-  // quizQuestionWrapper.style.display = 'none'
 
-  // quizQuestionWrapper.style.maxHeight = height + 'px'
-  // quizQuestionWrapper.style.visibility = 'visible'
-  // quizQuestionWrapper.style.display = 'block'
-  // currentHeightQuiz = quizQuestionContainer.scrollHeight
-  // quizQuestionContainer.style.maxHeight = currentHeightQuiz + 'px';
+  countTimeSeconds = amountTimeSeconds
+  clearInterval(countdown)
+  timerDisplay()
+  // currentHeightQuiz = quizQuestionWrapper.scrollHeight + quizProgressWrap.offsetHeight + parseInt(getComputedStyle(quizProgressWrap).marginBottom) + 2
+  // quizQuestionContainer.style.height = currentHeightQuiz + 'px';
 }
 
 function renderProgressBar(isLastQuestion = false) {
@@ -206,7 +230,12 @@ function randomQuestions() {
     q.answers.sort(() => Math.random() - 0.5)
   }
 }
+
 function renderResult() {
+  clearInterval(countdown)
+  audio.pause()
+  audio.currentTime = 0
+
   const percentRightAnswers = (userScore / countQuestions * 100).toFixed()
 
   let raiting = 0
@@ -314,4 +343,7 @@ function renderResult() {
     `
     resultScreenListAnswers.insertAdjacentHTML('beforeend', questionHTML)
   })
+
+  // currentHeightQuiz = quizResultScreenWrapper.scrollHeight
+  // quizResultScreen.style.height = currentHeightQuiz + 'px';
 }
