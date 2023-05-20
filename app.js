@@ -1,4 +1,5 @@
 'use strict'
+import {questions} from './questions.js'
 // Стартовый экран
 const quizStartScreen = document.querySelector('.quiz__screen-start')
 const quizButtonStart = document.querySelector('.quiz__button_start')
@@ -31,44 +32,13 @@ const resultScreenListAnswers = document.querySelector('.quiz__result-question-l
 
 const audio = document.getElementsByTagName('audio')[0]
 
-// Массив вопросов
-const questions = [
-  {
-    question: 'Кто стал первым президентом России после распада СССР?',
-    answers: ['Владимир Путин', 'Михаил Горбачев', 'Борис Ельцин', 'Дмитрий Медведев'],
-    correct: 'Борис Ельцин',
-    descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
-    numberImg: 1,
-    isRightUserAnswer: false,
-    userAnswer: null
-  },
-  {
-    question: 'Какое событие произошло в 1991 году, приведшее к окончательному распаду СССР?',
-    answers: ['Перестройка', 'Крах экономики', 'Война в Афганистане', 'Попытка государственного переворота'],
-    correct: 'Попытка государственного переворота',
-    descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
-    numberImg: 2,
-    isRightUserAnswer: false,
-    userAnswer: null
-  },
-  {
-    question: 'Какие реформы были проведены в России в 1990-е годы?',
-    answers: ['Реформы в образовании', 'Реформы в здравоохранении', 'Реформы в экономике', 'Реформы в науке'],
-    correct: 'Реформы в экономике',
-    descrAnswer: `Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Что грустный города родного его. Рот рыбными прямо ipsum щеке маленький о, эта все обеспечивает, не образ рыбного свой, сих подпоясал даже заманивший осталось всеми предложения правилами! Там, составитель языкового?`,
-    numberImg: 3,
-    isRightUserAnswer: false,
-    userAnswer: null
-  }
-]
-
 // Переменные игры
 let questionIndex = 0
 let userScore = 0
 let countQuestions = questions.length
 
 // Таймер
-const amountTimeSeconds = 5
+const amountTimeSeconds = 30
 const totalTime = amountTimeSeconds * countQuestions
 let userPassingTime = 0
 let countTimeSeconds = amountTimeSeconds
@@ -97,6 +67,7 @@ quizButtonStart.addEventListener('click', function(e) {
   quizQuestionContainer.classList.add('visible')
   randomQuestions()
   renderQuestion()
+  animateScrollTo()
 })
 quizButtonQuestion.addEventListener('click', function(e) {
   e.preventDefault()
@@ -107,6 +78,7 @@ quizButtonQuestion.addEventListener('click', function(e) {
     // Выключению звука
     audio.pause()
     audio.currentTime = 0
+    animateScrollTo()
   }
 })
 quizButtonRestart.addEventListener('click', function(e) {
@@ -117,6 +89,7 @@ quizButtonRestart.addEventListener('click', function(e) {
   quizResultScreen.classList.remove('visible')
   quizQuestionContainer.classList.add('visible')
   quizStartScreen.classList.remove('visible')
+  animateScrollTo()
 })
 
 function resetQuizResults() {
@@ -336,5 +309,16 @@ function renderResult() {
     </div>
     `
     resultScreenListAnswers.insertAdjacentHTML('beforeend', questionHTML)
+  })
+}
+
+function getHeaderHeight() {
+  return document.querySelector('.header').scrollHeight
+}
+function animateScrollTo() {
+  window.scrollTo({
+    top: getHeaderHeight(),
+    left: 0,
+    behavior: 'smooth'
   })
 }

@@ -21,8 +21,8 @@ html {
   --color-quiz-answered-border: #ececec;
 
   /* gradient colors */
-  --color-gradient-1: #45b649;
-  --color-gradient-2: #dce35b;
+  --color-gradient-1: #0A69ED;
+  --color-gradient-2: #D01975;
 
   /* --accent-second-color: #f51963;
   --error-red-color: hsl(0, 100%, 59%); */
@@ -311,6 +311,7 @@ h6 {
 }
 .quiz__image {
   max-width: 100%;
+  min-height: 280px;
 }
 .quiz__image img {
   transition: all 0.3s ease 0s;
@@ -492,6 +493,7 @@ h6 {
   margin-bottom: 15px;
 }
 .result-screen__descr span {
+  font-size: 36px;
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
