@@ -483,6 +483,11 @@ h6 {
   align-items: center;
   justify-content: center;
 }
+@media (max-width: 600px){
+  .quiz__buttons-wrapper {
+    grid-auto-flow: row;
+  }
+}
 .quiz__error-message {
   position: absolute;
   left: 50%;

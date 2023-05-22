@@ -87,7 +87,7 @@ class InitQuiz {
     let countQuestions = questions.length
 
     // Таймер
-    this.amountTimeSeconds = 45
+    this.amountTimeSeconds = 30
     this.userPassingTime = 0
     const totalTime = this.amountTimeSeconds * countQuestions
     let countTimeSeconds = this.amountTimeSeconds
@@ -331,13 +331,13 @@ class InitQuiz {
       })
     }
 
-    function getHeaderHeight() {
-      return document.querySelector('.header').scrollHeight
+    function getHeaderHeightAndMargin() {
+      return document.querySelector('.header').scrollHeight + parseInt(window.getComputedStyle(document.querySelector('.quiz')).marginTop)
     }
 
     this.animateScrollTo = function() {
       window.scrollTo({
-        top: getHeaderHeight(),
+        top: getHeaderHeightAndMargin(),
         left: 0,
         behavior: 'smooth'
       })
