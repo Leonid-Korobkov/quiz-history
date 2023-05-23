@@ -73,275 +73,282 @@ quizButtonsStart.forEach((button, index) => {
     q.randomQuestions()
     q.renderQuestion()
     q.animateScrollTo()
-
-    console.log(`Clicked button ${index}`)
   })
 })
 
 class InitQuiz {
   constructor(indexCurrentQuiz) {
+    this.indexCurrentQuiz = indexCurrentQuiz
     // Переменные игры
-    let questions = quiz[indexCurrentQuiz]['questions']
-    let questionIndex = 0
-    let userScore = 0
-    let countQuestions = questions.length
+    this.questions = quiz[this.indexCurrentQuiz]['questions']
+    this.questionIndex = 0
+    this.userScore = 0
+    this.countQuestions = this.questions.length
 
     // Таймер
     this.amountTimeSeconds = 30
     this.userPassingTime = 0
-    const totalTime = this.amountTimeSeconds * countQuestions
-    let countTimeSeconds = this.amountTimeSeconds
-    let countdown
+    this.totalTime = this.amountTimeSeconds * this.countQuestions
+    this.countTimeSeconds = this.amountTimeSeconds
+    this.countdown
+  }
 
-    this.timerDisplay = function() {
-      quizTimeLeft.innerHTML = `${countTimeSeconds}с`
-      countdown = setInterval(() => {
-        countTimeSeconds--
-        quizTimeLeft.innerHTML = `${countTimeSeconds}с`
-        if (countTimeSeconds == 3) {
-          audio.play()
-        }
-        if (countTimeSeconds == 0) {
-          this.userPassingTime += this.amountTimeSeconds - parseInt(quizTimeLeft.textContent)
-          questionIndex++
-          this.renderQuestion()
-        }
-      }, 1000)
+  timerDisplay() {
+    quizTimeLeft.innerHTML = `${this.countTimeSeconds}с`
+    this.countdown = setInterval(() => {
+      this.countTimeSeconds--
+      quizTimeLeft.innerHTML = `${this.countTimeSeconds}с`
+      if (this.countTimeSeconds == 3) {
+        audio.play()
+      }
+      if (this.countTimeSeconds == 0) {
+        this.userPassingTime += this.amountTimeSeconds - parseInt(quizTimeLeft.textContent)
+        this.questionIndex++
+        this.renderQuestion()
+      }
+    }, 1000)
+  }
+
+  resetQuizResults() {
+    clearInterval(this.countdown)
+    this.questionIndex = 0
+    this.userScore = 0
+    this.userPassingTime = 0
+
+    resultScreenTitle.innerHTML = ''
+    resultScreenDescr.innerHTML = ''
+    resultScreenTable.innerHTML = ''
+    resultScreenListAnswers.innerHTML = ''
+
+    for (let question of this.questions) {
+      question['isRightUserAnswer'] = false
+      question['userAnswer'] = null
+    }
+  }
+
+  checkAnswer() {
+    const selectedAnswerUser = quizQuestionListAnswers.querySelector('.quiz__item-answer:checked')
+    if (!selectedAnswerUser) {
+      quizQuestionButtonWrapper.classList.add('error')
+      setTimeout(() => {
+        quizQuestionButtonWrapper.classList.remove('error')
+      }, 2000)
+      return false
+    }
+    quizQuestionButtonWrapper.classList.remove('error')
+    this.questions[this.questionIndex]['userAnswer'] = selectedAnswerUser.value
+    if (this.questions[this.questionIndex]['correct'] === this.questions[this.questionIndex]['userAnswer']) {
+      this.questions[this.questionIndex]['isRightUserAnswer'] = true
+      this.userScore++
     }
 
-    this.resetQuizResults = function() {
-      questionIndex = 0
-      userScore = 0
-      this.userPassingTime = 0
+    this.questionIndex++
 
-      resultScreenTitle.innerHTML = ''
-      resultScreenDescr.innerHTML = ''
-      resultScreenTable.innerHTML = ''
-      resultScreenListAnswers.innerHTML = ''
+    return true
+  }
 
-      for (let question of questions) {
-        question['isRightUserAnswer'] = false
-        question['userAnswer'] = null
-      }
+  renderQuestion() {
+    // Нажатие кнопки на последнем вопросе
+    if (this.questionIndex === this.questions.length) {
+      this.renderProgressBar(true)
+      setTimeout(() => {
+        quizQuestionContainer.classList.remove('visible')
+        quizResultScreen.classList.add('visible')
+        this.renderResult()
+      }, 300)
+      return
     }
 
-    this.checkAnswer = function() {
-      const selectedAnswerUser = quizQuestionListAnswers.querySelector('.quiz__item-answer:checked')
-      if (!selectedAnswerUser) {
-        quizQuestionButtonWrapper.classList.add('error')
-        setTimeout(() => {
-          quizQuestionButtonWrapper.classList.remove('error')
-        }, 2000)
-        return false
-      }
-      quizQuestionButtonWrapper.classList.remove('error')
-      questions[questionIndex]['userAnswer'] = selectedAnswerUser.value
-      if (questions[questionIndex]['correct'] === questions[questionIndex]['userAnswer']) {
-        questions[questionIndex]['isRightUserAnswer'] = true
-        userScore++
-      }
+    let questionTitleText = this.questions[this.questionIndex]['question']
+    let questionImgHTML = `<img src="img/questions/${this.indexCurrentQuiz + 1}/${this.questions[this.questionIndex][
+      'numberImg'
+    ]}.jpg" alt="${questionTitleText}">`
 
-      questionIndex++
+    let questionListAnswersHTML = ``
+    this.questions[this.questionIndex]['answers'].forEach((item, i) => {
+      questionListAnswersHTML += `
+      <li class="quiz__item">
+        <input type="radio" name="answer" class="quiz__item-answer" id="quiz__item-answer_${i + 1}" value="${item}">
+        <label for="quiz__item-answer_${i + 1}">
+          <span>${item}</span>
+        </label>
+      </li>`
+    })
 
-      return true
+    quizQuestionTitle.textContent = questionTitleText
+    quizQuestionImageContainer.innerHTML = questionImgHTML
+    quizQuestionListAnswers.innerHTML = questionListAnswersHTML
+
+    if (this.questionIndex === this.questions.length - 1) {
+      quizButtonQuestion.textContent = 'закончить'
+    } else {
+      quizButtonQuestion.textContent = 'ответить'
     }
 
-    this.renderQuestion = function() {
-      // Нажатие кнопки на последнем вопросе
-      if (questionIndex === questions.length) {
-        renderProgressBar(true)
-        setTimeout(() => {
-          quizQuestionContainer.classList.remove('visible')
-          quizResultScreen.classList.add('visible')
-          this.renderResult()
-        }, 300)
-        return
-      }
+    this.renderProgressBar()
 
-      let questionTitleText = questions[questionIndex]['question']
-      let questionImgHTML = `<img src="img/questions/${indexCurrentQuiz + 1}/${questions[questionIndex][
-        'numberImg'
-      ]}.jpg" alt="${questionTitleText}">`
+    this.countTimeSeconds = this.amountTimeSeconds
+    clearInterval(this.countdown)
+    this.timerDisplay()
+  }
 
-      let questionListAnswersHTML = ``
-      questions[questionIndex]['answers'].forEach((item, i) => {
-        questionListAnswersHTML += `
-        <li class="quiz__item">
-          <input type="radio" name="answer" class="quiz__item-answer" id="quiz__item-answer_${i + 1}" value="${item}">
-          <label for="quiz__item-answer_${i + 1}">
-            <span>${item}</span>
-          </label>
-        </li>`
-      })
+  renderProgressBar(isLastQuestion = false) {
+    if (!isLastQuestion) {
+      quizProgressAmountNumber.textContent = this.countQuestions
+      quizProgressCurrentNumber.textContent = this.questionIndex + 1
+      quizProgressFill.style.width = `${this.questionIndex / this.countQuestions * 100}%`
+    } else {
+      quizProgressFill.style.width = `${this.questionIndex / this.countQuestions * 100}%`
+    }
+  }
 
-      quizQuestionTitle.textContent = questionTitleText
-      quizQuestionImageContainer.innerHTML = questionImgHTML
-      quizQuestionListAnswers.innerHTML = questionListAnswersHTML
+  randomQuestions() {
+    this.questions.sort(() => Math.random() - 0.5)
+    for (const q of this.questions) {
+      q.answers.sort(() => Math.random() - 0.5)
+    }
+  }
 
-      if (questionIndex === questions.length - 1) {
-        quizButtonQuestion.textContent = 'закончить'
-      } else {
-        quizButtonQuestion.textContent = 'ответить'
-      }
+  renderResult() {
+    clearInterval(this.countdown)
+    audio.pause()
+    audio.currentTime = 0
 
-      renderProgressBar()
+    const percentRightAnswers = (this.userScore / this.countQuestions * 100).toFixed()
 
-      countTimeSeconds = this.amountTimeSeconds
-      clearInterval(countdown)
-      this.timerDisplay()
+    let raiting = 0
+    if (percentRightAnswers > 85) {
+      resultScreenDescr.innerHTML = `<span>Гений!</span>Ты не просто знаток истории, ты исторический магнат! Твои знания в теме «${quiz[
+        this.indexCurrentQuiz
+      ]['nameQuiz']}» просто ломают шаблоны. Ты знаешь больше, чем сам Иосиф Сталин! Браво!`
+      resultScreenTitle.innerHTML = `🎉${this.userScore} <span>из</span> ${this.countQuestions}🎉`
+      raiting = 5
+    } else if (percentRightAnswers > 65) {
+      resultScreenDescr.innerHTML = `<span>Отлично!</span>Ты наша историческая сорока, всегда готовая собрать крупицы знаний. Твои познания в теме «${quiz[
+        this.indexCurrentQuiz
+      ]['nameQuiz']}» достойны отметки "хорошо". Продолжай в том же духе и скоро ты станешь легендой научных тусовок!`
+      resultScreenTitle.innerHTML = `🎊${this.userScore} <span>из</span> ${this.countQuestions}🎊`
+      raiting = 4
+    } else if (percentRightAnswers > 45) {
+      resultScreenDescr.innerHTML = `<span>Не плохо, не катастрофично!</span>Ты оказался лучше, чем большинство. Твои знания в теме «${quiz[
+        this.indexCurrentQuiz
+      ][
+        'nameQuiz'
+      ]}» несомненно выше среднего, но у тебя всегда есть шанс подтянуться к уровню настоящих исторических гуру. Вперед, в бой за знания!`
+      resultScreenTitle.innerHTML = `🥳${this.userScore} <span>из</span> ${this.countQuestions}🥳`
+      raiting = 3
+    } else if (percentRightAnswers > 1) {
+      resultScreenDescr.innerHTML = `<span>Потрачено!</span>Ты провалился, как КПСС в 1991 году. Твои знания в теме «${quiz[
+        this.indexCurrentQuiz
+      ][
+        'nameQuiz'
+      ]}» оставляют желать лучшего. Но не сдавайся! История полна неожиданностей, так что продолжай свое путешествие и возможно, станешь настоящим историческим кумиром!`
+      resultScreenTitle.innerHTML = `😭${this.userScore} <span>из</span> ${this.countQuestions}😭`
+      raiting = 2
+    } else {
+      resultScreenDescr.innerHTML = `<span>Ой-ой-ой</span>Судя по всему, ты совсем заблудился во временных путях Советского Союза! Но не расстраивайся, история иногда оказывается довольно коварной. Ты можешь пройти викторину еще раз или познакомиться с этим периодом более подробно, чтобы в следующий раз стать историческим гуру! Всегда есть время для нового погружения в прошлое, держись и не сдавайся!`
+      resultScreenTitle.innerHTML = `🤬🤯${this.userScore} <span>из</span> ${this.countQuestions}🤯🤬`
+      raiting = 1
     }
 
-    function renderProgressBar(isLastQuestion = false) {
-      if (!isLastQuestion) {
-        quizProgressAmountNumber.textContent = countQuestions
-        quizProgressCurrentNumber.textContent = questionIndex + 1
-        quizProgressFill.style.width = `${questionIndex / countQuestions * 100}%`
-      } else {
-        quizProgressFill.style.width = `${questionIndex / countQuestions * 100}%`
-      }
+    function secondsToMinutes(seconds) {
+      seconds = Number(seconds)
+
+      let m = Math.floor(seconds % 3600 / 60)
+      let s = Math.floor(seconds % 3600 % 60)
+
+      return ('0' + m).slice(-2) + ':' + ('0' + s).slice(-2)
     }
 
-    this.randomQuestions = function() {
-      questions.sort(() => Math.random() - 0.5)
-      for (const q of questions) {
-        q.answers.sort(() => Math.random() - 0.5)
-      }
-    }
+    const averageTime = Math.round(this.userPassingTime / this.countQuestions)
 
-    this.renderResult = function() {
-      clearInterval(countdown)
-      audio.pause()
-      audio.currentTime = 0
+    resultScreenTable.innerHTML = `
+      <tr>
+        <th>Количестов правильных ответов</th>
+        <th>${this.userScore} из ${this.countQuestions}</th>
+      </tr>
+      <tr>
+        <td>Процент правильных ответов</td>
+        <td>${percentRightAnswers}%</td>
+      </tr>
+      <tr>
+        <td>Время прохождения</td>
+        <td>${secondsToMinutes(this.userPassingTime)} из ${secondsToMinutes(this.totalTime)}</td>
+      </tr>
+      <tr>
+        <td>Среднее время на вопрос</td>
+        <td>${secondsToMinutes(averageTime)} из ${secondsToMinutes(this.amountTimeSeconds)}</td>
+      </tr>
+      <tr>
+        <td>Оценка</td>
+        <td>${raiting}</td>
+      </tr>
+    `
 
-      const percentRightAnswers = (userScore / countQuestions * 100).toFixed()
+    resultScreenListAnswers.innerHTML = `<div class="result-question-list__title">Вопросы и ответы</div>`
+    this.questions.forEach((question, index) => {
+      let questionListAnswersHTML = ''
 
-      let raiting = 0
-      if (percentRightAnswers > 85) {
-        resultScreenDescr.innerHTML = `<span>Гений!</span>Ты не просто знаток истории, ты исторический магнат! Твои знания о Советском Союзе в 1945-1953 годах просто ломают шаблоны. Ты знаешь больше, чем сам Иосиф Сталин! Браво!`
-        resultScreenTitle.innerHTML = `🎉${userScore} <span>из</span> ${countQuestions}🎉`
-        raiting = 5
-      } else if (percentRightAnswers > 65) {
-        resultScreenDescr.innerHTML = `<span>Отлично!</span>Ты наша историческая сорока, всегда готовая собрать крупицы знаний. Твои познания о Советском Союзе в 1945-1953 годах достойны отметки "хорошо". Продолжай в том же духе и скоро ты станешь легендой научных тусовок!`
-        resultScreenTitle.innerHTML = `🎊${userScore} <span>из</span> ${countQuestions}🎊`
-        raiting = 4
-      } else if (percentRightAnswers > 45) {
-        resultScreenDescr.innerHTML = `<span>Не плохо, не катастрофично!</span>Ты оказался лучше, чем большинство. Твои знания о Советском Союзе в 1945-1953 годах несомненно выше среднего, но у тебя всегда есть шанс подтянуться к уровню настоящих исторических гуру. Вперед, в бой за знания!`
-        resultScreenTitle.innerHTML = `🥳${userScore} <span>из</span> ${countQuestions}🥳`
-        raiting = 3
-      } else if (percentRightAnswers > 1) {
-        resultScreenDescr.innerHTML = `<span>Потрачено!</span>Ты провалился, как КПСС в 1991 году. Твои знания о Советском Союзе в 1945-1953 годах оставляют желать лучшего. Но не сдавайся! История полна неожиданностей, так что продолжай свое путешествие и возможно, станешь настоящим историческим кумиром!`
-        resultScreenTitle.innerHTML = `😭${userScore} <span>из</span> ${countQuestions}😭`
-        raiting = 2
-      } else {
-        resultScreenDescr.innerHTML = `<span>Ой-ой-ой</span>Судя по всему, ты совсем заблудился во временных путях Советского Союза! Но не расстраивайся, история иногда оказывается довольно коварной. Ты можешь пройти викторину еще раз или познакомиться с этим периодом более подробно, чтобы в следующий раз стать историческим гуру! Всегда есть время для нового погружения в прошлое, держись и не сдавайся!`
-        resultScreenTitle.innerHTML = `🤬🤯${userScore} <span>из</span> ${countQuestions}🤯🤬`
-        raiting = 1
-      }
-
-      function secondsToMinutes(seconds) {
-        seconds = Number(seconds)
-
-        let m = Math.floor(seconds % 3600 / 60)
-        let s = Math.floor(seconds % 3600 % 60)
-
-        return ('0' + m).slice(-2) + ':' + ('0' + s).slice(-2)
-      }
-
-      resultScreenTable.innerHTML = `
-    <tr>
-      <th>Количестов правильных ответов</th>
-      <th>${userScore} из ${countQuestions}</th>
-    </tr>
-    <tr>
-      <td>Процент правильных ответов</td>
-      <td>${percentRightAnswers}%</td>
-    </tr>
-    <tr>
-      <td>Время прохождения</td>
-      <td>${secondsToMinutes(this.userPassingTime)} из ${secondsToMinutes(totalTime)}</td>
-    </tr>
-    <tr>
-      <td>Оценка</td>
-      <td>${raiting}</td>
-    </tr>
-  `
-
-      resultScreenListAnswers.innerHTML = `<div class="result-question-list__title">Вопросы и ответы</div>`
-      questions.forEach((question, index) => {
-        let questionListAnswersHTML = ''
-
-        let templateAnswerItem = `
+      let templateAnswerItem = `
         <li class="quiz__item %cssClass%">
           <label>
             <span>%title%</span>
           </label>
-          %description%
         </li>
       `
-        // Применение ответам нужные стили
-        if (question['isRightUserAnswer']) {
-          for (let answer of question['answers']) {
-            if (answer !== question['correct']) {
-              questionListAnswersHTML += templateAnswerItem
-                .replace('%cssClass%', 'quiz__item_answered')
-                .replace('%title%', answer)
-                .replace('%description%', '')
-            } else {
-              questionListAnswersHTML += templateAnswerItem
-                .replace('%cssClass%', 'quiz__item_right')
-                .replace('%title%', answer)
-                .replace('%description%', `<div class="result-question-list__answer-descr">${question['descrAnswer']}</div>`)
-            }
-          }
-        } else {
-          for (let answer of question['answers']) {
-            if (answer === question['correct']) {
-              questionListAnswersHTML += templateAnswerItem
-                .replace('%cssClass%', 'quiz__item_suppose')
-                .replace('%title%', answer)
-                .replace('%description%', `<div class="result-question-list__answer-descr">${question['descrAnswer']}</div>`)
-            } else if (answer === question['userAnswer']) {
-              questionListAnswersHTML += templateAnswerItem
-                .replace('%cssClass%', 'quiz__item_wrong')
-                .replace('%title%', answer)
-                .replace('%description%', '')
-            } else {
-              questionListAnswersHTML += templateAnswerItem
-                .replace('%cssClass%', 'quiz__item_answered')
-                .replace('%title%', answer)
-                .replace('%description%', '')
-            }
+      // Применение ответам нужные стили
+      if (question['isRightUserAnswer']) {
+        for (let answer of question['answers']) {
+          if (answer !== question['correct']) {
+            questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_answered').replace('%title%', answer)
+          } else {
+            questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_right').replace('%title%', answer)
           }
         }
+      } else {
+        for (let answer of question['answers']) {
+          if (answer === question['correct']) {
+            questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_suppose').replace('%title%', answer)
+          } else if (answer === question['userAnswer']) {
+            questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_wrong').replace('%title%', answer)
+          } else {
+            questionListAnswersHTML += templateAnswerItem.replace('%cssClass%', 'quiz__item_answered').replace('%title%', answer)
+          }
+        }
+      }
 
-        const questionHTML = `
-    <div class="result-question-list__item">
-      <div class="quiz__question-wrapper">
-        <h4 class="quiz__title quiz__title_question main-title">${index + 1}) ${question['question']}</h4>
-        <div class="quiz__question">
-          <div class="quiz__image">
-            <img src="img/questions/${indexCurrentQuiz + 1}/${question['numberImg']}.jpg" alt="${question['question']}">
+      const questionHTML = `
+        <div class="result-question-list__item">
+          <div class="quiz__question-wrapper">
+            <h4 class="quiz__title quiz__title_question main-title">${index + 1}) ${question['question']}</h4>
+            <div class="quiz__question">
+              <div class="quiz__image">
+                <img src="img/questions/${this.indexCurrentQuiz + 1}/${question['numberImg']}.jpg" alt="${question['question']}">
+              </div>
+              <ul class="quiz__list">
+                ${questionListAnswersHTML}
+                <div class="result-question-list__answer-descr"><p style="font-size: 20px;color: var(--dark-main-color);">Пояснение:</p>${question[
+                  'descrAnswer'
+                ]}</div>
+              </ul>
+            </div>
           </div>
-          <ul class="quiz__list">${questionListAnswersHTML}</ul>
         </div>
-      </div>
-    </div>
-    `
-        resultScreenListAnswers.insertAdjacentHTML('beforeend', questionHTML)
-      })
-    }
+        `
+      resultScreenListAnswers.insertAdjacentHTML('beforeend', questionHTML)
+    })
+  }
 
-    function getHeaderHeightAndMargin() {
-      return document.querySelector('.header').scrollHeight + parseInt(window.getComputedStyle(document.querySelector('.quiz')).marginTop)
-    }
+  getHeaderHeightAndMargin() {
+    return document.querySelector('.header').scrollHeight + parseInt(window.getComputedStyle(document.querySelector('.quiz')).marginTop)
+  }
 
-    this.animateScrollTo = function() {
-      window.scrollTo({
-        top: getHeaderHeightAndMargin(),
-        left: 0,
-        behavior: 'smooth'
-      })
-    }
+  animateScrollTo() {
+    window.scrollTo({
+      top: this.getHeaderHeightAndMargin(),
+      left: 0,
+      behavior: 'smooth'
+    })
   }
 }
 
@@ -369,6 +376,16 @@ quizButtonRestart.addEventListener('click', function(e) {
   q.animateScrollTo()
 })
 quizButtonToStartScreen.addEventListener('click', function(e) {
+  e.preventDefault()
+  q.resetQuizResults()
+  quizResultScreen.classList.remove('visible')
+  quizQuestionContainer.classList.remove('visible')
+  quizStartScreen.classList.add('visible')
+  q.animateScrollTo()
+})
+
+const quizButtonExit = document.querySelector('.quiz__button_exit');
+quizButtonExit.addEventListener('click', function(e) {
   e.preventDefault()
   q.resetQuizResults()
   quizResultScreen.classList.remove('visible')
