@@ -30,6 +30,43 @@ const resultScreenListAnswers = document.querySelector('.quiz__result-question-l
 
 const audio = document.getElementsByTagName('audio')[0]
 
+/**
+ * Функция для плавной смены экранов с анимацией ухода и появления
+ * @param {HTMLElement} screenToShow - Экран, который нужно показать
+ * @param {HTMLElement[]} screensToHide - Массив экранов, которые нужно скрыть
+ */
+async function changeScreen(screenToShow, screensToHide = []) {
+  // 1. Запускаем анимацию ухода для всех видимых экранов из списка
+  console.log('changeScreen')
+  const exitPromises = screensToHide.map(screen => {
+    if (screen.classList.contains('visible')) {
+      console.log('screen.classList.add("exiting")')
+      screen.classList.add('exiting');
+      return new Promise(resolve => {
+        screen.addEventListener('animationend', () => {
+          console.log('screen.classList.remove("visible", "exiting")')
+          screen.classList.remove('visible', 'exiting');
+          resolve();
+        }, { once: true });
+      });
+    }
+  }).filter(Boolean);
+
+  // Ждем пока все текущие экраны закончат анимацию исчезновения
+  if (exitPromises.length > 0) {
+    await Promise.all(exitPromises);
+  } else {
+    // Если ничего не было активно, просто очищаем классы на всякий случай
+    screensToHide.forEach(s => s.classList.remove('visible', 'exiting'));
+  }
+
+  // 2. Показываем новый экран
+  if (screenToShow) {
+    console.log('screenToShow.classList.add("visible")')
+    screenToShow.classList.add('visible');
+  }
+}
+
 function renderQuizItemsOnStartScreen() {
   quiz.forEach(item => {
     const itemHTML = `
@@ -61,9 +98,7 @@ let q
 quizButtonsStart.forEach((button, index) => {
   button.addEventListener('click', e => {
     e.preventDefault()
-    quizResultScreen.classList.remove('visible')
-    quizQuestionContainer.classList.add('visible')
-    quizStartScreen.classList.remove('visible')
+    changeScreen(quizQuestionContainer, [quizResultScreen, quizStartScreen]);
 
     q = new InitQuiz(index)
     if (!arrLoadedImages.includes(index)) {
@@ -72,7 +107,7 @@ quizButtonsStart.forEach((button, index) => {
     q.resetQuizResults()
     q.randomQuestions()
     q.renderQuestion()
-    q.animateScrollTo()
+    // q.animateScrollTo()
   })
 })
 
@@ -151,11 +186,8 @@ class InitQuiz {
     // Нажатие кнопки на последнем вопросе
     if (this.questionIndex === this.questions.length) {
       this.renderProgressBar(true)
-      setTimeout(() => {
-        quizQuestionContainer.classList.remove('visible')
-        quizResultScreen.classList.add('visible')
-        this.renderResult()
-      }, 300)
+      changeScreen(quizResultScreen, [quizQuestionContainer]);
+      this.renderResult()
       return
     }
 
@@ -370,17 +402,13 @@ quizButtonRestart.addEventListener('click', function(e) {
   q.resetQuizResults()
   q.randomQuestions()
   q.renderQuestion()
-  quizResultScreen.classList.remove('visible')
-  quizQuestionContainer.classList.add('visible')
-  quizStartScreen.classList.remove('visible')
+  changeScreen(quizQuestionContainer, [quizResultScreen, quizStartScreen]);
   q.animateScrollTo()
 })
 quizButtonToStartScreen.addEventListener('click', function(e) {
   e.preventDefault()
   q.resetQuizResults()
-  quizResultScreen.classList.remove('visible')
-  quizQuestionContainer.classList.remove('visible')
-  quizStartScreen.classList.add('visible')
+  changeScreen(quizStartScreen, [quizResultScreen, quizQuestionContainer]);
   q.animateScrollTo()
 })
 
@@ -388,8 +416,5 @@ const quizButtonExit = document.querySelector('.quiz__button_exit');
 quizButtonExit.addEventListener('click', function(e) {
   e.preventDefault()
   q.resetQuizResults()
-  quizResultScreen.classList.remove('visible')
-  quizQuestionContainer.classList.remove('visible')
-  quizStartScreen.classList.add('visible')
-  q.animateScrollTo()
+  changeScreen(quizStartScreen, [quizResultScreen, quizQuestionContainer]);
 })
