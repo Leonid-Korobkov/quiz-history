@@ -37,14 +37,11 @@ const audio = document.getElementsByTagName('audio')[0]
  */
 async function changeScreen(screenToShow, screensToHide = []) {
   // 1. Запускаем анимацию ухода для всех видимых экранов из списка
-  console.log('changeScreen')
   const exitPromises = screensToHide.map(screen => {
     if (screen.classList.contains('visible')) {
-      console.log('screen.classList.add("exiting")')
       screen.classList.add('exiting');
       return new Promise(resolve => {
         screen.addEventListener('animationend', () => {
-          console.log('screen.classList.remove("visible", "exiting")')
           screen.classList.remove('visible', 'exiting');
           resolve();
         }, { once: true });
@@ -62,7 +59,6 @@ async function changeScreen(screenToShow, screensToHide = []) {
 
   // 2. Показываем новый экран
   if (screenToShow) {
-    console.log('screenToShow.classList.add("visible")')
     screenToShow.classList.add('visible');
   }
 }
