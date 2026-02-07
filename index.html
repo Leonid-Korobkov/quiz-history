@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Архив Эпохи: СССР 1945–1964</title>
 
   <meta name="yandex-verification" content="c2b53a53c55390c5" />
 
-  <meta name="description" content="Данный квиз(викторина) разработан для того, чтобы проверить свои знания в истории по теме «Советский Союз в 1945-1964 гг.»">
-  <meta name="keywords" content="Квиз, история, игра, тест, викторина, Сталин, СССР, Хрущев, Маленков, Берия, политика, Советский Союз">
+  <meta name="description"
+    content="Данный квиз(викторина) разработан для того, чтобы проверить свои знания в истории по теме «Советский Союз в 1945-1964 гг.»">
+  <meta name="keywords"
+    content="Квиз, история, игра, тест, викторина, Сталин, СССР, Хрущев, Маленков, Берия, политика, Советский Союз">
   <meta name="robots" content="all" />
   <meta name="author" content="Коробков Леонид" />
   <meta name="copyright" lang="ru" content="ИП-21-3 Коробков Леонид" />
-  <title>Тест(квиз, викторина) по истории «Советский Союз в 1945-1964 гг.»</title>
+  <meta name="theme-color" content="#1a1a1a">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
-  <meta name="theme-color" content="#f8d1a7">
 
+  <!-- Favicons -->
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="img/favicon.svg" type="image/svg+xml">
 
@@ -41,146 +51,198 @@
   <meta name="msapplication-square150x150logo" content="img/favicomatic/mstile-150x150.png" />
   <meta name="msapplication-wide310x150logo" content="img/favicomatic/mstile-310x150.png" />
   <meta name="msapplication-square310x310logo" content="img/favicomatic/mstile-310x310.png" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leonid-korobkov.github.io/quiz-history/">
+  <meta property="og:title" content="Архив Эпохи: СССР 1945–1964 — Исторический Квиз">
+  <meta property="og:description"
+    content="Интерактивный исторический архив и квиз. Проверьте свои знания о периоде восстаноления СССР, оттепели и холодной войне.">
+  <meta property="og:image" content="https://leonid-korobkov.github.io/quiz-history/img/og-preview.jpg">
 
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://leonid-korobkov.github.io/quiz-history/">
+  <meta property="twitter:title" content="Архив Эпохи: СССР 1945–1964 — Исторический Квиз">
+  <meta property="twitter:description"
+    content="Интерактивный исторический архив и квиз. Проверьте свои знания о периоде восстаноления СССР, оттепели и холодной войне.">
+  <meta property="twitter:image" content="https://leonid-korobkov.github.io/quiz-history/img/og-preview.jpg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://leonid-korobkov.github.io/quiz-history/">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Quiz",
+      "name": "Исторический квиз: СССР 1945–1964",
+      "description": "Проверьте свои знания об истории СССР в послевоенный период и эпоху оттепели.",
+      "educationalLevel": "Intermediate",
+      "assesses": "Knowledge of Soviet History 1945-1964",
+      "author": {
+        "@type": "Person",
+        "name": "Leonid Korobkov",
+        "url": "https://github.com/Leonid-Korobkov"
+      },
+      "inLanguage": "ru"
+    }
+    </script>
 </head>
 
 <body>
-
-  <div class="wrapper">
-
+  <div class="app-container">
+    <!-- Header -->
     <header class="header">
-      <div class="header__container">
-        <div class="header__body">
-          <div class="header__logo">
-            <img src="img/logo-dark.svg" alt="logo">
-          </div>
+      <div class="header__inner">
+        <div class="header__logo">
+          <span class="logo__prefix">ARCHIVE</span>
+          <span class="logo__divider">//</span>
+          <span class="logo__year">1945—1964</span>
+        </div>
+        <div class="header__status">
+          <span class="status-dot"></span>
+          СИСТЕМА АКТИВНА
         </div>
       </div>
     </header>
 
     <main class="page">
       <section class="quiz">
-        <div class="quiz__container">
-          <div class="quiz__body">
-            <div class="quiz__screen-start visible">
-              <h3 class="quiz__title main-title">Советский Союз в 1945-1964 гг.</h3>
-              <p class="quiz__descr">Добро пожаловать на викторину по истории!</p>
-              <p class="quiz__descr">Я приветствую вас на сайте, посвященном интересным историческим викторинам. Здесь
-                вы сможете проверить свои знания о различных периодах и событиях, связанных с историей.</p>
-              <div class="quiz__descr">
-                <span>Правила викторины:</span>
+        <!-- START SCREEN -->
+        <div class="quiz__screen-start visible">
+          <div class="start-content">
+            <div class="start-header">
+              <span class="period-badge">1945–1964</span>
+              <h1 class="main-title">Эпоха перемен</h1>
+              <p class="subtitle">Советский Союз: от послевоенного восстановления до оттепели</p>
+            </div>
+
+            <div class="description-grid">
+              <div class="description-block">
+                <p class="quiz__descr">Добро пожаловать в цифровой исторический архив. Вам предстоит погрузиться в
+                  детальный анализ ключевых событий середины XX века.</p>
+                <p class="quiz__descr">Исследуйте политические решения, экономические реформы и социальные сдвиги эпохи.
+                </p>
+              </div>
+              <div class="rules-block">
+                <span class="rules-label">ПРОТОКОЛ ТЕСТИРОВАНИЯ</span>
                 <ul class="quiz__descr-list">
-                  <li class="quiz__descr-item">В каждой викторине вам будет предложено 15 вопросов</li>
-                  <li class="quiz__descr-item">На каждый вопрос у вас будет 30 секунд, чтобы выбрать правильный ответ
-                  </li>
-                  <li class="quiz__descr-item">Ваша задача - дать максимальное количество правильных ответов и проверить
-                    свои знания об истории</li>
+                  <li class="quiz__descr-item">15 вопросов в модуле</li>
+                  <li class="quiz__descr-item">30 секунд на ответ</li>
+                  <li class="quiz__descr-item">Историческая точность</li>
                 </ul>
               </div>
-              <p class="quiz__descr">По завершению викторины вы получите статистику по вашим ответам. Вы сможете
-                увидеть, сколько вопросов вы ответили правильно, а также почитать пояснения и объяснения правильного
-                ответа. Это поможет вам узнать больше о теме викторины и расширить свои знания об истории.</p>
-              <p class="quiz__descr">Готовы ли вы принять вызов и проверить свои знания? Начните свое путешествие по
-                истории прямо сейчас!</p>
-              <div class="quiz__select-quiz select-quiz">
-                <div class="select-quiz__list">
-                </div>
+            </div>
+
+            <div class="quiz__select-wrapper">
+              <span class="section-label">ДОСТУПНЫЕ МОДУЛИ ДАННЫХ</span>
+              <div class="select-quiz__list">
+                <!-- JS injects items here -->
               </div>
             </div>
-            <div class="quiz__question-container">
-              <div class="button-exit-wrapper">
-                <button type="button" class="quiz__button_exit">↺ выйти</button>
+          </div>
+        </div>
+
+        <!-- QUESTION SCREEN -->
+        <div class="quiz__question-container">
+          <div class="quiz-interface">
+            <div class="quiz-header-panel">
+              <button type="button" class="quiz__button_exit">
+                <span class="icon">✕</span> ПРЕРВАТЬ
+              </button>
+              <div class="quiz__timer">
+                <span class="timer-label">ВРЕМЯ</span>
+                <span class="quiz__time-left">30с</span>
               </div>
-              <div class="quiz__progress-wrap">
-                <div class="quiz__progress-questions">
-                  <span class="quiz__progress-question_current">1</span><span
-                    class="quiz__progress-question_slash">/</span><span class="quiz__progress-question_amount">10</span>
-                </div>
-                <div class="quiz__progress">
-                  <div class="quiz__progress-fill"></div>
-                </div>
-                <div class="quiz__timer">
-                  <img src="img/timer-icon.svg" />
-                  <span class="quiz__time-left"></span>
+            </div>
+
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-info">
+                <span class="progress-label">ПРОГРЕСС АНАЛИЗА</span>
+                <div class="progress-numbers">
+                  <span class="quiz__progress-question_current">1</span>
+                  <span class="separator">/</span>
+                  <span class="quiz__progress-question_amount">10</span>
                 </div>
               </div>
-              <div class="quiz__question-wrapper">
-                <h4 class="quiz__title quiz__title_question main-title"></h4>
+              <div class="quiz__progress">
+                <div class="quiz__progress-fill"></div>
+              </div>
+            </div>
+
+            <div class="quiz__question-wrapper">
+              <div class="question-content">
+                <h2 class="quiz__title quiz__title_question main-title"></h2>
+
                 <div class="quiz__question">
-                  <div class="quiz__image"></div>
-                  <ul class="quiz__list"></ul>
-                </div>
-                <div class="quiz__button-wrapper_question">
-                  <button type="button" class="quiz__button quiz__button_question">ответить</button>
-                  <div class="quiz__error-message">Выберите один из вариантов ответов</div>
-                </div>
-              </div>
-            </div>
-            <div class="quiz__result-screen result-screen">
-              <div class="result-screen_wrapper">
-                <div class="result-screen__title"><span></span></div>
-                <div class="result-screen__descr"><span></span></div>
-                <table class="quiz__table-result">
-                  <tr>
-                    <th>Количестов правильных ответов</th>
-                    <th>4 из 10</th>
-                  </tr>
-                  <tr>
-                    <td>Процент правильных ответов</td>
-                    <td>40%</td>
-                  </tr>
-                  <tr>
-                    <td>Время прохождения</td>
-                    <td>2:33 из 10:00</td>
-                  </tr>
-                  <tr>
-                    <td>Оценка</td>
-                    <td>3</td>
-                  </tr>
-                </table>
-                <div class="quiz__result-question-list result-question-list">
-                  <div class="result-question-list__title">Вопросы и ответы</div>
-                  <div class="result-question-list__item">
-                    <div class="quiz__question-wrapper">
-                      <h4 class="quiz__title quiz__title_question main-title"></h4>
-                      <div class="quiz__question">
-                        <div class="quiz__image">
-                          <!-- <img src="img/questions/1.jpg" alt=""> -->
-                        </div>
-                        <ul class="quiz__list">
-                          <li class="quiz__item quiz__item_right">
-                            <label class="result-question-list__label">
-                              <span></span>
-                            </label>
-                          </li>
-                        </ul>
-                      </div>
+                  <div class="quiz__image-box">
+                    <div class="quiz__image">
+                      <!-- Image injected here -->
                     </div>
                   </div>
-                </div>
-                <div class="quiz__buttons-wrapper">
-                  <button type="button" class="quiz__button quiz__button_to-start-screen">на главную</button>
-                  <button type="button" class="quiz__button quiz__button_restart">пройти еще раз</button>
+
+                  <div class="answers-box">
+                    <ul class="quiz__list">
+                      <!-- Answers injected here -->
+                    </ul>
+                    <div class="quiz__button-wrapper_question">
+                      <button type="button" class="quiz__button quiz__button_question">ПОДТВЕРДИТЬ</button>
+                      <div class="quiz__error-message">Выберите вариант ответа</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- RESULT SCREEN -->
+        <div class="quiz__result-screen result-screen">
+          <div class="result-content">
+            <div class="result-header">
+              <span class="result-label">РЕЗУЛЬТАТЫ АНАЛИЗА</span>
+              <h2 class="result-screen__title"></h2>
+              <div class="result-screen__descr"></div>
+            </div>
+
+            <!-- The JS writes a TABLE here. We will style it heavily in CSS. -->
+            <div class="stats-container">
+              <table class="quiz__table-result"></table>
+            </div>
+
+            <div class="result-details">
+              <span class="section-label">ДЕТАЛИЗАЦИЯ ОТВЕТОВ</span>
+              <div class="quiz__result-question-list result-question-list">
+                <!-- JS fills this -->
+              </div>
+            </div>
+
+            <div class="quiz__buttons-wrapper">
+              <button type="button" class="quiz__button quiz__button_restart">ПОВТОРИТЬ АНАЛИЗ</button>
+              <button type="button" class="quiz__button quiz__button_to-start-screen">ВЕРНУТЬСЯ В АРХИВ</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio -->
         <audio>
           <source src="sound/sound-timer.mp3">
         </audio>
       </section>
     </main>
 
-
-
     <footer class="footer">
-      <div class="footer__container">
-        <div class="footer__body">
-          <p class="footer__p">© Коробков Л.А</p>
-          <p class="footer__p">ИП-21-3</p>
-          <p class="footer__p">2023г.</p>
+      <div class="footer__inner">
+        <div class="footer-left">
+          <span>©
+            <span class="version">
+              <script>document.write(new Date().getFullYear())</script>
+            </span> KOROBKOV L.A.</span>
+
+        </div>
+        <div class="footer-right">
+          <span class="footer__p">Front-end Developer - <a class="footer__link"
+              href="https://github.com/Leonid-Korobkov">GitHub</a></span>
         </div>
       </div>
     </footer>

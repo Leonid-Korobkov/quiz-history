@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leonid-korobkov.github.io/quiz-history/sitemap.xml
