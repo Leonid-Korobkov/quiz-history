@@ -5,24 +5,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Архив Эпохи: СССР 1945–1964</title>
+  <title>Исторический квиз по СССР 1945–1964 | Архив Эпохи</title>
 
   <meta name="yandex-verification" content="c2b53a53c55390c5" />
 
   <meta name="description"
-    content="Данный квиз(викторина) разработан для того, чтобы проверить свои знания в истории по теме «Советский Союз в 1945-1964 гг.»">
+    content="Интерактивный квиз по истории СССР 1945–1964 годов: послевоенное восстановление, борьба за власть, оттепель и холодная война. Проверьте знания за 15 вопросов.">
   <meta name="keywords"
-    content="Квиз, история, игра, тест, викторина, Сталин, СССР, Хрущев, Маленков, Берия, политика, Советский Союз">
-  <meta name="robots" content="all" />
+    content="квиз по истории СССР, тест СССР 1945 1964, викторина история, послевоенный СССР, оттепель, Хрущев, Сталин, Маленков, Берия, холодная война">
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large" />
   <meta name="author" content="Коробков Леонид" />
   <meta name="copyright" lang="ru" content="ИП-21-3 Коробков Леонид" />
-  <meta name="theme-color" content="#1a1a1a">
+  <meta name="theme-color" content="#472925">
+  <meta name="application-name" content="Архив Эпохи">
+  <meta name="apple-mobile-web-app-title" content="Архив Эпохи">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600;700&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
@@ -44,28 +47,33 @@
   <link rel="icon" type="image/png" href="img/favicomatic/favicon-32x32.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="img/favicomatic/favicon-16x16.png" sizes="16x16" />
   <link rel="icon" type="image/png" href="img/favicomatic/favicon-128.png" sizes="128x128" />
-  <meta name="application-name" content="&nbsp;" />
-  <meta name="msapplication-TileColor" content="#FFFFFF" />
+  <meta name="msapplication-TileColor" content="#ead8b5" />
   <meta name="msapplication-TileImage" content="img/favicomatic/mstile-144x144.png" />
   <meta name="msapplication-square70x70logo" content="img/favicomatic/mstile-70x70.png" />
   <meta name="msapplication-square150x150logo" content="img/favicomatic/mstile-150x150.png" />
   <meta name="msapplication-wide310x150logo" content="img/favicomatic/mstile-310x150.png" />
   <meta name="msapplication-square310x310logo" content="img/favicomatic/mstile-310x310.png" />
   <!-- Open Graph / Facebook -->
+  <meta property="og:locale" content="ru_RU">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://leonid-korobkov.github.io/quiz-history/">
   <meta property="og:title" content="Архив Эпохи: СССР 1945–1964 — Исторический Квиз">
   <meta property="og:description"
-    content="Интерактивный исторический архив и квиз. Проверьте свои знания о периоде восстаноления СССР, оттепели и холодной войне.">
+    content="Интерактивный исторический архив и квиз. Проверьте знания о периоде восстановления СССР, оттепели и холодной войне.">
   <meta property="og:image" content="https://leonid-korobkov.github.io/quiz-history/img/og-preview.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="Исторический квиз Архив Эпохи: СССР 1945–1964">
+  <meta property="og:site_name" content="Архив Эпохи">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://leonid-korobkov.github.io/quiz-history/">
   <meta property="twitter:title" content="Архив Эпохи: СССР 1945–1964 — Исторический Квиз">
   <meta property="twitter:description"
-    content="Интерактивный исторический архив и квиз. Проверьте свои знания о периоде восстаноления СССР, оттепели и холодной войне.">
+    content="Интерактивный исторический архив и квиз. Проверьте знания о периоде восстановления СССР, оттепели и холодной войне.">
   <meta property="twitter:image" content="https://leonid-korobkov.github.io/quiz-history/img/og-preview.jpg">
+  <meta property="twitter:image:alt" content="Исторический квиз Архив Эпохи: СССР 1945–1964">
 
   <!-- Canonical -->
   <link rel="canonical" href="https://leonid-korobkov.github.io/quiz-history/">
@@ -74,14 +82,18 @@
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Quiz",
-      "name": "Исторический квиз: СССР 1945–1964",
-      "description": "Проверьте свои знания об истории СССР в послевоенный период и эпоху оттепели.",
-      "educationalLevel": "Intermediate",
-      "assesses": "Knowledge of Soviet History 1945-1964",
-      "author": {
+      "@type": "LearningResource",
+      "name": "Исторический квиз по СССР 1945–1964",
+      "description": "Интерактивная викторина по истории СССР в послевоенный период, борьбе за власть, оттепели и холодной войне.",
+      "url": "https://leonid-korobkov.github.io/quiz-history/",
+      "image": "https://leonid-korobkov.github.io/quiz-history/img/og-preview.jpg",
+      "learningResourceType": "Quiz",
+      "educationalLevel": "intermediate",
+      "assesses": "История СССР 1945–1964 годов",
+      "isAccessibleForFree": true,
+      "creator": {
         "@type": "Person",
-        "name": "Leonid Korobkov",
+        "name": "Коробков Леонид",
         "url": "https://github.com/Leonid-Korobkov"
       },
       "inLanguage": "ru"
@@ -95,49 +107,58 @@
     <header class="header">
       <div class="header__inner">
         <div class="header__logo">
-          <span class="logo__prefix">ARCHIVE</span>
+          <span class="logo__prefix">Архив</span>
           <span class="logo__divider">//</span>
-          <span class="logo__year">1945—1964</span>
+          <span class="logo__year">СССР 1945–1964</span>
         </div>
         <div class="header__status">
           <span class="status-dot"></span>
-          СИСТЕМА АКТИВНА
+          тест по истории
         </div>
       </div>
     </header>
 
-    <main class="page">
-      <section class="quiz">
+    <main class="page" id="main-content">
+      <section class="quiz" aria-labelledby="start-title">
         <!-- START SCREEN -->
         <div class="quiz__screen-start visible">
           <div class="start-content">
             <div class="start-header">
               <span class="period-badge">1945–1964</span>
-              <h1 class="main-title">Эпоха перемен</h1>
-              <p class="subtitle">Советский Союз: от послевоенного восстановления до оттепели</p>
+              <h1 class="main-title" id="start-title">СССР после войны</h1>
+              <p class="subtitle">Послевоенные годы, борьба за власть и первые годы оттепели</p>
             </div>
 
             <div class="description-grid">
               <div class="description-block">
-                <p class="quiz__descr">Добро пожаловать в цифровой исторический архив. Вам предстоит погрузиться в
-                  детальный анализ ключевых событий середины XX века.</p>
-                <p class="quiz__descr">Исследуйте политические решения, экономические реформы и социальные сдвиги эпохи.
-                </p>
+                <p class="quiz__descr">Это короткий квиз по истории СССР с 1945 по 1964 год. Вопросы идут по событиям,
+                  людям и решениям, которые обычно попадаются в этой теме.</p>
+                <p class="quiz__descr">Выберите раздел, отвечайте по памяти и сверяйте ответы с пояснениями после
+                  прохождения.</p>
               </div>
               <div class="rules-block">
-                <span class="rules-label">ПРОТОКОЛ ТЕСТИРОВАНИЯ</span>
+                <span class="rules-label">Как идет квиз</span>
                 <ul class="quiz__descr-list">
-                  <li class="quiz__descr-item">15 вопросов в модуле</li>
+                  <li class="quiz__descr-item">15 вопросов в разделе</li>
                   <li class="quiz__descr-item">30 секунд на ответ</li>
-                  <li class="quiz__descr-item">Историческая точность</li>
+                  <li class="quiz__descr-item">Пояснения в конце</li>
                 </ul>
               </div>
             </div>
 
             <div class="quiz__select-wrapper">
-              <span class="section-label">ДОСТУПНЫЕ МОДУЛИ ДАННЫХ</span>
+              <span class="section-label">Выберите раздел</span>
               <div class="select-quiz__list">
                 <!-- JS injects items here -->
+              </div>
+              <noscript>
+                <p class="noscript-message">Для прохождения квиза включите JavaScript. Темы: восстановление после войны,
+                  борьба за власть, оттепель и внешняя политика СССР.</p>
+              </noscript>
+              <div class="seo-summary" aria-label="Темы исторического квиза">
+                <h2>Исторический тест по СССР 1945–1964 годов</h2>
+                <p>Вопросы охватывают послевоенное восстановление, поздний сталинский период, приход Хрущева, реформы
+                  оттепели, международные кризисы и ключевые решения советского руководства.</p>
               </div>
             </div>
           </div>
@@ -148,17 +169,17 @@
           <div class="quiz-interface">
             <div class="quiz-header-panel">
               <button type="button" class="quiz__button_exit">
-                <span class="icon">✕</span> ПРЕРВАТЬ
+                <span class="icon">✕</span> Выйти
               </button>
               <div class="quiz__timer">
-                <span class="timer-label">ВРЕМЯ</span>
-                <span class="quiz__time-left">30с</span>
+                <span class="timer-label">Осталось</span>
+                <span class="quiz__time-left" aria-live="polite">30с</span>
               </div>
             </div>
 
             <div class="quiz-progress-bar">
               <div class="quiz-progress-info">
-                <span class="progress-label">ПРОГРЕСС АНАЛИЗА</span>
+                <span class="progress-label">Вопрос</span>
                 <div class="progress-numbers">
                   <span class="quiz__progress-question_current">1</span>
                   <span class="separator">/</span>
@@ -200,7 +221,7 @@
         <div class="quiz__result-screen result-screen">
           <div class="result-content">
             <div class="result-header">
-              <span class="result-label">РЕЗУЛЬТАТЫ АНАЛИЗА</span>
+              <span class="result-label">Итог</span>
               <h2 class="result-screen__title"></h2>
               <div class="result-screen__descr"></div>
             </div>
@@ -211,22 +232,22 @@
             </div>
 
             <div class="result-details">
-              <span class="section-label">ДЕТАЛИЗАЦИЯ ОТВЕТОВ</span>
+              <span class="section-label">Ответы и пояснения</span>
               <div class="quiz__result-question-list result-question-list">
                 <!-- JS fills this -->
               </div>
             </div>
 
             <div class="quiz__buttons-wrapper">
-              <button type="button" class="quiz__button quiz__button_restart">ПОВТОРИТЬ АНАЛИЗ</button>
-              <button type="button" class="quiz__button quiz__button_to-start-screen">ВЕРНУТЬСЯ В АРХИВ</button>
+              <button type="button" class="quiz__button quiz__button_restart">Начать заново</button>
+              <button type="button" class="quiz__button quiz__button_to-start-screen">К списку разделов</button>
             </div>
           </div>
         </div>
 
         <!-- Audio -->
-        <audio>
-          <source src="sound/sound-timer.mp3">
+        <audio preload="none">
+          <source src="sound/sound-timer.mp3" type="audio/mpeg">
         </audio>
       </section>
     </main>
@@ -235,9 +256,7 @@
       <div class="footer__inner">
         <div class="footer-left">
           <span>©
-            <span class="version">
-              <script>document.write(new Date().getFullYear())</script>
-            </span> KOROBKOV L.A.</span>
+            <span class="version">2026</span> KOROBKOV L.A.</span>
 
         </div>
         <div class="footer-right">

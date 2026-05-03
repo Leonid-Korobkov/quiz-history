@@ -27,8 +27,13 @@ const resultScreenTitle = document.querySelector('.result-screen__title')
 const resultScreenDescr = document.querySelector('.result-screen__descr')
 const resultScreenTable = document.querySelector('.quiz__table-result')
 const resultScreenListAnswers = document.querySelector('.quiz__result-question-list')
+const footerYear = document.querySelector('.version')
 
 const audio = document.getElementsByTagName('audio')[0]
+
+if (footerYear) {
+  footerYear.textContent = new Date().getFullYear()
+}
 
 /**
  * Функция для плавной смены экранов с анимацией ухода и появления
@@ -64,17 +69,29 @@ async function changeScreen(screenToShow, screensToHide = []) {
 }
 
 function renderQuizItemsOnStartScreen() {
+  const fragment = document.createDocumentFragment()
   quiz.forEach(item => {
-    const itemHTML = `
-    <div class="select-quiz__item">
-      <div class="select-quiz__title">${item.nameQuiz}</div>
-      <div class="select-quiz__button-wrapper">
-        <button type="button" class="quiz__button quiz__button_select-quiz">пройти</button>
-      </div>
-    </div>
-    `
-    quizSelectQuizList.insertAdjacentHTML('beforeend', itemHTML)
+    const quizItem = document.createElement('div')
+    quizItem.className = 'select-quiz__item'
+
+    const quizTitle = document.createElement('div')
+    quizTitle.className = 'select-quiz__title'
+    quizTitle.textContent = item.nameQuiz
+
+    const buttonWrapper = document.createElement('div')
+    buttonWrapper.className = 'select-quiz__button-wrapper'
+
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'quiz__button quiz__button_select-quiz'
+    button.textContent = 'начать'
+    button.setAttribute('aria-label', `Начать раздел: ${item.nameQuiz}`)
+
+    buttonWrapper.append(button)
+    quizItem.append(quizTitle, buttonWrapper)
+    fragment.append(quizItem)
   })
+  quizSelectQuizList.append(fragment)
 }
 renderQuizItemsOnStartScreen()
 
@@ -84,7 +101,7 @@ let arrLoadedImages = []
 function generateLoadingImageHTML(numberQuiz, countQuestions) {
   let listHTML = ``
   for (let i = 0; i < countQuestions; i++) {
-    listHTML += `<link rel="preload" as="image" href="img/questions/${numberQuiz + 1}/${i + 1}.jpg">`
+    listHTML += `<link rel="prefetch" as="image" href="img/questions/${numberQuiz + 1}/${i + 1}.jpg">`
   }
   arrLoadedImages.push(numberQuiz)
   return listHTML
@@ -190,7 +207,7 @@ class InitQuiz {
     let questionTitleText = this.questions[this.questionIndex]['question']
     let questionImgHTML = `<img src="img/questions/${this.indexCurrentQuiz + 1}/${this.questions[this.questionIndex][
       'numberImg'
-    ]}.jpg" alt="${questionTitleText}">`
+    ]}.jpg" alt="${questionTitleText}" width="640" height="480" decoding="async" fetchpriority="high">`
 
     let questionListAnswersHTML = ``
     this.questions[this.questionIndex]['answers'].forEach((item, i) => {
@@ -246,36 +263,36 @@ class InitQuiz {
 
     let raiting = 0
     if (percentRightAnswers > 85) {
-      resultScreenDescr.innerHTML = `<span>Гений!</span>Ты не просто знаток истории, ты исторический магнат! Твои знания в теме «${quiz[
+      resultScreenDescr.innerHTML = `<span>Сильный результат</span>Вы хорошо знаете тему «${quiz[
         this.indexCurrentQuiz
-      ]['nameQuiz']}» просто ломают шаблоны. Ты знаешь больше, чем сам Иосиф Сталин! Браво!`
-      resultScreenTitle.innerHTML = `🎉${this.userScore} <span>из</span> ${this.countQuestions}🎉`
+      ]['nameQuiz']}». Ошибок почти нет, значит даты, фамилии и общий контекст держатся в голове уверенно.`
+      resultScreenTitle.innerHTML = `${this.userScore} <span>из</span> ${this.countQuestions}`
       raiting = 5
     } else if (percentRightAnswers > 65) {
-      resultScreenDescr.innerHTML = `<span>Отлично!</span>Ты наша историческая сорока, всегда готовая собрать крупицы знаний. Твои познания в теме «${quiz[
+      resultScreenDescr.innerHTML = `<span>Хорошо</span>По теме «${quiz[
         this.indexCurrentQuiz
-      ]['nameQuiz']}» достойны отметки "хорошо". Продолжай в том же духе и скоро ты станешь легендой научных тусовок!`
-      resultScreenTitle.innerHTML = `🎊${this.userScore} <span>из</span> ${this.countQuestions}🎊`
+      ]['nameQuiz']}» база есть. Где-то подвели детали, но общая картина понятна.`
+      resultScreenTitle.innerHTML = `${this.userScore} <span>из</span> ${this.countQuestions}`
       raiting = 4
     } else if (percentRightAnswers > 45) {
-      resultScreenDescr.innerHTML = `<span>Не плохо, не катастрофично!</span>Ты оказался лучше, чем большинство. Твои знания в теме «${quiz[
+      resultScreenDescr.innerHTML = `<span>Нормально, но есть пробелы</span>Часть вопросов по теме «${quiz[
         this.indexCurrentQuiz
       ][
         'nameQuiz'
-      ]}» несомненно выше среднего, но у тебя всегда есть шанс подтянуться к уровню настоящих исторических гуру. Вперед, в бой за знания!`
-      resultScreenTitle.innerHTML = `🥳${this.userScore} <span>из</span> ${this.countQuestions}🥳`
+      ]}» далась уверенно, но некоторые события и решения стоит повторить.`
+      resultScreenTitle.innerHTML = `${this.userScore} <span>из</span> ${this.countQuestions}`
       raiting = 3
     } else if (percentRightAnswers > 1) {
-      resultScreenDescr.innerHTML = `<span>Потрачено!</span>Ты провалился, как КПСС в 1991 году. Твои знания в теме «${quiz[
+      resultScreenDescr.innerHTML = `<span>Пока слабовато</span>В теме «${quiz[
         this.indexCurrentQuiz
       ][
         'nameQuiz'
-      ]}» оставляют желать лучшего. Но не сдавайся! История полна неожиданностей, так что продолжай свое путешествие и возможно, станешь настоящим историческим кумиром!`
-      resultScreenTitle.innerHTML = `😭${this.userScore} <span>из</span> ${this.countQuestions}😭`
+      ]}» много путаницы. Посмотрите пояснения ниже, там видно, где именно просели ответы.`
+      resultScreenTitle.innerHTML = `${this.userScore} <span>из</span> ${this.countQuestions}`
       raiting = 2
     } else {
-      resultScreenDescr.innerHTML = `<span>Ой-ой-ой</span>Судя по всему, ты совсем заблудился во временных путях Советского Союза! Но не расстраивайся, история иногда оказывается довольно коварной. Ты можешь пройти викторину еще раз или познакомиться с этим периодом более подробно, чтобы в следующий раз стать историческим гуру! Всегда есть время для нового погружения в прошлое, держись и не сдавайся!`
-      resultScreenTitle.innerHTML = `🤬🤯${this.userScore} <span>из</span> ${this.countQuestions}🤯🤬`
+      resultScreenDescr.innerHTML = `<span>Нужно повторить тему</span>Похоже, период 1945–1964 пока смешивается в одну кучу. Начните с пояснений к вопросам, а потом пройдите раздел еще раз.`
+      resultScreenTitle.innerHTML = `${this.userScore} <span>из</span> ${this.countQuestions}`
       raiting = 1
     }
 
@@ -292,19 +309,19 @@ class InitQuiz {
 
     resultScreenTable.innerHTML = `
       <tr>
-        <th>Количестов правильных ответов</th>
+        <th>Правильные ответы</th>
         <th>${this.userScore} из ${this.countQuestions}</th>
       </tr>
       <tr>
-        <td>Процент правильных ответов</td>
+        <td>Процент верных ответов</td>
         <td>${percentRightAnswers}%</td>
       </tr>
       <tr>
-        <td>Время прохождения</td>
+        <td>Время</td>
         <td>${secondsToMinutes(this.userPassingTime)} из ${secondsToMinutes(this.totalTime)}</td>
       </tr>
       <tr>
-        <td>Среднее время на вопрос</td>
+        <td>В среднем на вопрос</td>
         <td>${secondsToMinutes(averageTime)} из ${secondsToMinutes(this.amountTimeSeconds)}</td>
       </tr>
       <tr>
@@ -351,11 +368,11 @@ class InitQuiz {
             <h4 class="quiz__title quiz__title_question main-title">${index + 1}) ${question['question']}</h4>
             <div class="quiz__question">
               <div class="quiz__image">
-                <img src="img/questions/${this.indexCurrentQuiz + 1}/${question['numberImg']}.jpg" alt="${question['question']}">
+                <img src="img/questions/${this.indexCurrentQuiz + 1}/${question['numberImg']}.jpg" alt="${question['question']}" width="640" height="480" loading="lazy" decoding="async">
               </div>
               <ul class="quiz__list">
                 ${questionListAnswersHTML}
-                <div class="result-question-list__answer-descr"><p style="font-size: 20px;color: var(--dark-main-color);">Пояснение:</p>${question[
+                <div class="result-question-list__answer-descr"><p class="result-question-list__answer-descr-title">Пояснение:</p>${question[
                   'descrAnswer'
                 ]}</div>
               </ul>
@@ -368,7 +385,14 @@ class InitQuiz {
   }
 
   getHeaderHeightAndMargin() {
-    return document.querySelector('.header').scrollHeight + parseInt(window.getComputedStyle(document.querySelector('.quiz')).marginTop)
+    const questionTitle = document.querySelector('.quiz__question-container.visible .quiz__title_question')
+    const topOffset = 16
+
+    if (!questionTitle) {
+      return 0
+    }
+
+    return Math.max(0, questionTitle.getBoundingClientRect().top + window.scrollY - topOffset)
   }
 
   animateScrollTo() {
